@@ -1,0 +1,26 @@
+{
+    "name": "mdfm-mklist",
+    "version": "1.0.0",
+    "description": "Make a JSON list of all markdown files in a given path",
+    "main": "index.js",
+    "dependencies": {
+        "node-dir": "^0.1.17",
+        "nopt": "^4.0.1",
+        "traverse": "^0.6.6"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "markdown",
+        "files",
+        "list",
+        "make"
+    ],
+    "author": "Dustin Pfister",
+    "license": "GPL-3.0",
+    "bin": {
+        "mdfm-mklist": "./index.js"
+    }
+}
