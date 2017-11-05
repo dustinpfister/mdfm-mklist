@@ -22,6 +22,19 @@ $ mdfm-mklist
 
 If all goes well it should spit out the desired JSON.
 
+## Basic use (as module)
+
+```js
+var mklist = require('./index.js');
+ 
+mklist.list(function(li){
+ 
+    console.log('this is test');
+    console.log(li);
+ 
+},{recursive:true,source:'./'});
+```
+
 ## Recursive
 
 To get a list of all files in all folders just use the -r flag

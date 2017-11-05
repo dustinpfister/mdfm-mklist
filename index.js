@@ -7,7 +7,7 @@ nopt = require('nopt'),
 traverse = require('traverse'),
 
 // values for this tool
-md = {
+conf = {
 
     markPat: /.md$/,
     recursive: false,
@@ -44,15 +44,15 @@ log = function (mess) {
 },
 
 // set any given argumnets from the command line
-setArgv = function () {
+setConf = function (obj) {
 
     // traverse over argv object, and set any values given at the
     // command line
-    traverse(argv).forEach(function (prop, two) {
+    traverse(obj).forEach(function (prop, two) {
 
         if (this.path[0] != 'argv' && this.key) {
 
-            md[this.key] = this.node;
+            conf[this.key] = this.node;
 
         }
 
@@ -73,9 +73,9 @@ forAll = (function () {
         a = [];
 
         // get it done
-        dir.readFiles(md.source, {
-            match: md.markPat,
-            recursive: md.recursive
+        dir.readFiles(conf.source, {
+            match: conf.markPat,
+            recursive: conf.recursive
         },
 
             function (err, content, fn, next) {
@@ -124,7 +124,6 @@ buildList = function (done) {
     var obj = {},
     done = done || function () {};
 
-    setArgv();
     forAll(function () {}, function (a) {
 
         done(a);
@@ -133,9 +132,37 @@ buildList = function (done) {
 
 };
 
-// command line
-buildList(function (list) {
 
-    log(JSON.stringify(list));
+// if CLI
+if (require.main === module) {
 
-});
+    // set any argumnets given from command line
+    setConf(argv);
+
+    // build the list, and spit out json
+    buildList(function (list) {
+
+        log(JSON.stringify(list));
+
+    });
+
+} else {
+	
+	// else provide an API
+
+    exports.list = function (done,options) {
+
+	    done = done || function(){};
+	    options = options || {};
+		
+		setConf(options);
+		
+		buildList(function(list){
+			
+			done(list)
+			
+		});
+	
+    }
+
+}
